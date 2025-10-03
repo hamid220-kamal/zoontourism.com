@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ZoonTourism - Where Journeys Become Stories. Explore Kashmir's breathtaking destinations with curated tour packages.">
+    <title>ZoonTourism - Where Journeys Become Stories</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0d7377;
+            --secondary-color: #14ffec;
+            --accent-color: #ff6b6b;
+            --dark-bg: #1a1a2e;
+            --light-bg: #f8f9fa;
+            --text-dark: #2d3436;
+            --text-light: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+        }
+
+        /* Entry Overlay */
+        #entryOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        #entryOverlay.hidden {
+            animation: fadeOut 0.8s ease-in-out forwards;
+        }
+
+        .overlay-logo {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary-color);
+            animation: scaleIn 1s ease-in-out;
+            margin-bottom: 2rem;
+        }
+
+        .overlay-tagline {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 300;
+            animation: slideUp 1s ease-in-out 0.3s both;
+        }
+
+        .overlay-btn {
+            margin-top: 2rem;
+            padding: 15px 40px;
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            animation: slideUp 1s ease-in-out 0.6s both;
+            transition: transform 0.3s ease;
+        }
+
+        .overlay-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .navbar {
+            background: rgba(26, 26, 46, 0.95) !important;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            position: relative;
+            margin: 0 10px;
+            color: var(--text-dark) !important;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .nav-link {
+            color: var(--text-light) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--secondary-color);
+            color: var(--text-dark);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .carousel-item {
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .carousel-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .carousel-caption {
+            bottom: 30%;
+            animation: slideUp 1s ease-in-out;
+        }
+
+        .carousel-caption h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .carousel-caption p {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+/* Add these to your existing CSS */
+@media (max-width: 768px) {
+    .carousel-caption h1 {
+        font-size: 2rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 1rem;
+    }
+    
+   /* CTA Section Mobile Responsive Fix */
+.cta-section {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 95%;
+    max-width: 900px;
+    padding: 15px;
+    animation: slideUp 1s ease-in-out 0.5s both;
+    z-index: 10;
+}
+    
+    .cta-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .package-card {
+        height: auto;
+        margin-bottom: 20px;
+    }
+    
+    .package-card-inner {
+        height: 350px;
+    }
+    
+    .testimonial-card {
+        padding: 20px;
+        margin: 0 15px;
+    }
+    
+    .bottom-cta-section {
+        margin: 40px auto;
+        padding: 30px 20px;
+    }
+    
+    .bottom-cta-title {
+        font-size: 1.8rem;
+    }
+    
+    .bottom-cta-features {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .overlay-logo {
+        width: 120px;
+        height: 120px;
+        font-size: 2rem;
+    }
+    
+    .overlay-tagline {
+        font-size: 1.3rem;
+        text-align: center;
+        padding: 0 20px;
+    }
+    
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+    
+    .filter-btn {
+        margin: 2px;
+        padding: 8px 15px;
+        font-size: 0.8rem;
+    }
+    
+    .footer .row {
+        text-align: center;
+    }
+    
+    .social-icons {
+        justify-content: center;
+        margin-top: 15px;
+    }
+}/* Add this to all pages */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.background-image {
+    background-size: cover;
+    background-position: center;
+}
+
+@media (max-width: 768px) {
+    .carousel-item {
+        height: 60vh;
+        min-height: 400px;
+    }
+    
+    .package-image,
+    .blog-image,
+    .destination-image {
+        height: 200px;
+    }
+}/* Add this to all pages */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+    }
+    
+    .btn {
+        font-size: 0.9rem;
+    }
+}/* Add this to all pages with forms */
+@media (max-width: 576px) {
+    .form-control, .form-select {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    .input-group {
+        flex-direction: column;
+    }
+    
+    .input-group .btn {
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+}
+        /* CTA Section - Higher position */
+.cta-section {
+    position: absolute;
+    top: 75%; /* Reduced from 50% to move it higher */
+    left: 22%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 95%;
+    max-width: 900px;
+    padding: 15px;
+    animation: slideUp 1s ease-in-out 0.5s both;
+    z-index: 10;
+}
+        .cta-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        
+.cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.7s ease;
+}
+
+
+        .cta-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+       .cta-btn:hover::before {
+    left: 100%;
+}
+/* Mobile Responsive Fixes */
+@media (max-width: 768px) {
+    .cta-section {
+        top: 70%;
+        padding: 10px;
+        width: 90%;
+    }
+    
+    .cta-btn {
+        padding: 14px 30px;
+        font-size: 1.1rem;
+        width: auto;
+        max-width: 280px;
+    }
+}
+
+@media (max-width: 576px) {
+    .cta-section {
+        top: 65%;
+        width: 85%;
+    }
+    
+    .cta-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 250px;
+        white-space: normal;
+        line-height: 1.3;
+    }
+    
+    .carousel-caption {
+        bottom: 25%;
+        padding: 0 15px;
+    }
+    
+    .carousel-caption h1 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+    
+    .carousel-caption p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .cta-section {
+        top: 60%;
+    }
+    
+    .cta-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        max-width: 220px;
+    }
+    
+    .carousel-caption h1 {
+        font-size: 1.5rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 0.9rem;
+    }
+}
+
+        /* Packages Section */
+        .packages-section {
+            padding: 80px 0;
+            background: var(--light-bg);
+        }
+
+        body.dark-mode .packages-section {
+            background: #16213e;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+        }
+
+        .filter-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 25px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 400px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        body.dark-mode .package-card {
+            background: var(--dark-bg);
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .package-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .package-card:hover .package-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .package-front, .package-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .package-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .package-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .package-back .package-icon {
+            color: white;
+        }
+
+        .package-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .package-price {
+            font-size: 2rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .package-back ul {
+            list-style: none;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .package-back ul li {
+            margin: 10px 0;
+        }
+
+        .package-back ul li i {
+            margin-right: 10px;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 20px 0 20px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0a5c60 100%);
+            margin: 0;
+        }
+
+        .testimonials-section .section-title {
+            color: var(--text-light);
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .testimonials-section .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary-color);
+            border-radius: 2px;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            color: var(--text-light);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .testimonial-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--text-light);
+            font-size: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .testimonial-stars {
+            margin-bottom: 20px;
+            color: #ffd700;
+            font-size: 18px;
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+
+        .testimonial-location {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 2px solid var(--secondary-color);
+            opacity: 1;
+        }
+
+        .carousel-control-prev { left: 20px; }
+        .carousel-control-next { right: 20px; }
+
+        .testimonials-section .carousel-indicators {
+            position: relative;
+            bottom: 0;
+            margin-top: 30px;
+            margin-bottom: 0;
+        }
+
+        .carousel-indicators button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 2px solid var(--secondary-color);
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicators button.active {
+            background-color: var(--secondary-color);
+            transform: scale(1.2);
+        }
+
+        /* Bottom CTA Section */
+        .bottom-cta-section {
+            background-color: var(--primary-color);
+            padding: 60px 40px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(13, 115, 119, 0.25);
+            text-align: center;
+            max-width: 900px;
+            margin: 80px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bottom-cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+        }
+
+        .bottom-cta-title {
+            color: var(--text-light);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .bottom-cta-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .bottom-cta-btn {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            color: var(--text-dark);
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .bottom-cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .bottom-cta-features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .bottom-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 24px;
+            border-radius: 30px;
+        }
+
+        .bottom-feature i {
+            color: var(--secondary-color);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 60px 0 20px;
+            margin-top: 0;
+        }
+
+        .footer h5 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .footer a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background: var(--secondary-color);
+            color: var(--text-dark);
+            transform: translateY(-5px);
+        }
+
+        /* Cookie Notice */
+        .cookie-notice {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+        }
+
+        body.dark-mode .cookie-notice {
+            background: var(--dark-bg);
+            color: white;
+        }
+
+        .cookie-notice.show {
+            display: block;
+            animation: slideUp 0.5s ease-in-out;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .carousel-caption h1 {
+                font-size: 2.5rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .bottom-cta-title {
+                font-size: 2rem;
+            }
+            .bottom-cta-features {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Entry Overlay -->
+    <div id="entryOverlay">
+        <div class="overlay-logo">
+            <i class="fas fa-mountain"></i>
+        </div>
+        <div class="overlay-tagline">Where Journeys Become Stories</div>
+        <button class="overlay-btn" onclick="closeOverlay()">Explore Now</button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-mountain"></i> ZoonTourism</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="packages.html">Packages</a></li>
+                    <li class="nav-item"><a class="nav-link" href="destinations.html">Destinations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="things-to-do.html">Things to Do</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+                <button class="theme-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920');">
+                    <div class="carousel-caption">
+                        <h1>Discover Kashmir's Beauty</h1>
+                        <p>Experience the paradise on earth</p>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920');">
+                    <div class="carousel-caption">
+                        <h1>Adventure Awaits</h1>
+                        <p>Trekking, skiing, and unforgettable memories</p>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920');">
+                    <div class="carousel-caption">
+                        <h1>Create Your Story</h1>
+                        <p>Customized tours for every traveler</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+
+    <div class="cta-section" style="text-align: center;padding-right: 30%;padding-left: 12%;">
+    <button class="cta-btn" onclick="window.location.href='packages.html'">
+        <i class="fas fa-calendar-check me-2"></i>Book Your Adventure Now
+    </button>
+</div>
+    </section>
+
+    <!-- Packages Section -->
+    
+    <!-- Packages Section -->
+<section class="packages-section">
+    <div class="container">
+        <h2 class="section-title scroll-reveal">Featured Packages</h2>
+        
+        <div class="filter-section scroll-reveal">
+            <button class="filter-btn active" data-filter="all">All Packages</button>
+            <button class="filter-btn" data-filter="short">3-5 Days</button>
+            <button class="filter-btn" data-filter="medium">6-8 Days</button>
+            <button class="filter-btn" data-filter="long">9+ Days</button>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4 package-item scroll-reveal" data-duration="short">
+                <div class="package-card">
+                    <div class="package-card-inner">
+                        <div class="package-front">
+                            <div class="package-icon"><i class="fas fa-gem"></i></div>
+                            <h3 class="package-title">Kashmir Delight</h3>
+                            <p class="package-price">₹13,500</p>
+                            <p>4 Days / 3 Nights</p>
+                        </div>
+                        <div class="package-back">
+                            <h3 class="package-title">Inclusions</h3>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Shikara Ride</li>
+                                <li><i class="fas fa-check"></i> Srinagar Stay</li>
+                                <li><i class="fas fa-check"></i> Houseboat Stay</li>
+                                <li><i class="fas fa-check"></i> Breakfast & Dinner</li>
+                                <li><i class="fas fa-check"></i> Local Transport</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 package-item scroll-reveal" data-duration="short">
+                <div class="package-card">
+                    <div class="package-card-inner">
+                        <div class="package-front">
+                            <div class="package-icon"><i class="fas fa-mountain"></i></div>
+                            <h3 class="package-title">Scenic Kashmir</h3>
+                            <p class="package-price">₹16,000</p>
+                            <p>5 Days / 4 Nights</p>
+                        </div>
+                        <div class="package-back">
+                            <h3 class="package-title">Inclusions</h3>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Srinagar Stay</li>
+                                <li><i class="fas fa-check"></i> Houseboat Stay</li>
+                                <li><i class="fas fa-check"></i> Shikara Ride</li>
+                                <li><i class="fas fa-check"></i> Meals Included</li>
+                                <li><i class="fas fa-check"></i> Transfers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 package-item scroll-reveal" data-duration="medium">
+                <div class="package-card">
+                    <div class="package-card-inner">
+                        <div class="package-front">
+                            <div class="package-icon"><i class="fas fa-tree"></i></div>
+                            <h3 class="package-title">Kashmir Retreat</h3>
+                            <p class="package-price">₹19,100</p>
+                            <p>6 Days / 5 Nights</p>
+                        </div>
+                        <div class="package-back">
+                            <h3 class="package-title">Inclusions</h3>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Srinagar Stay</li>
+                                <li><i class="fas fa-check"></i> Pahalgam Stay</li>
+                                <li><i class="fas fa-check"></i> Houseboat Stay</li>
+                                <li><i class="fas fa-check"></i> Breakfast & Dinner</li>
+                                <li><i class="fas fa-check"></i> Cab Services</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 package-item scroll-reveal" data-duration="medium">
+                <div class="package-card">
+                    <div class="package-card-inner">
+                        <div class="package-front">
+                            <div class="package-icon"><i class="fas fa-crown"></i></div>
+                            <h3 class="package-title">Grand Kashmir Tour</h3>
+                            <p class="package-price">₹21,300</p>
+                            <p>7 Days / 6 Nights</p>
+                        </div>
+                        <div class="package-back">
+                            <h3 class="package-title">Inclusions</h3>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Srinagar Stay</li>
+                                <li><i class="fas fa-check"></i> Pahalgam Stay</li>
+                                <li><i class="fas fa-check"></i> Houseboat Stay</li>
+                                <li><i class="fas fa-check"></i> Shikara Ride</li>
+                                <li><i class="fas fa-check"></i> Meals & Transfers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title">What Our Travelers Say</h2>
+            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="testimonial-card"        style="max-width: 650px; width: 90%; margin: 40px auto; 
+            background: #0da59d; border-radius: 12px; padding: 30px; 
+            box-shadow: 0 6px 18px rgb(10, 223, 223); 
+            text-align: center; display: block;">
+                            <div class="testimonial-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="testimonial-text">"ZoonTourism made our Kashmir trip absolutely magical! The attention to detail and personalized service exceeded all expectations. From the serene Dal Lake shikara rides to the breathtaking views from Gulmarg, every moment was perfectly curated."</p>
+                            <p class="testimonial-author">Priya Sharma</p>
+                            <p class="testimonial-location">Mumbai, India</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="testimonial-card" 
+       style="max-width: 650px; width: 90%; margin: 40px auto; 
+            background: #0da59d; border-radius: 12px; padding: 30px; 
+            box-shadow: 0 6px 18px rgb(10, 223, 223); 
+            text-align: center; display: block;">
+    <div class="testimonial-avatar">
+        <i class="fas fa-user"></i>
+    </div>
+    <div class="testimonial-stars">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+    </div>
+    <p class="testimonial-text">
+        "Best adventure tour ever! The Gulmarg package was perfectly organized with thrilling skiing experiences and comfortable accommodations. Our guide was knowledgeable about the local culture and ensured our safety throughout."
+    </p>
+    <p class="testimonial-author">Rahul Verma</p>
+    <p class="testimonial-location">Delhi, India</p>
+</div>
+
+                    </div>
+                    <div class="carousel-item">
+                        <div class="testimonial-card"          style="max-width: 650px; width: 90%; margin: 40px auto; 
+            background: #0da59d; border-radius: 12px; padding: 30px; 
+            box-shadow: 0 6px 18px rgb(10, 223, 223); 
+            text-align: center; display: block;">
+                            <div class="testimonial-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="testimonial-text">"Our honeymoon in Kashmir was a dream come true thanks to ZoonTourism. The romantic package was perfect with thoughtful touches everywhere - from the candlelight dinner on the houseboat to the private shikara ride at sunset."</p>
+                            <p class="testimonial-author">Anita & Rohit</p>
+                            <p class="testimonial-location">Bangalore, India</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="2"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom CTA Section -->
+    <section class="bottom-cta-section">
+        <h2 class="bottom-cta-title">Ready to Explore Kashmir?</h2>
+        <p class="bottom-cta-subtitle">Book your dream vacation today and experience the breathtaking beauty of the Himalayas, serene lakes, and lush valleys.</p>
+        
+        <button class="bottom-cta-btn" onclick="window.location.href='packages.html'">
+            <i class="fas fa-calendar-check"></i>Book Now
+        </button>
+        
+        <div class="bottom-cta-features">
+            <div class="bottom-feature">
+                <i class="fas fa-check-circle"></i>
+                <span>Best Price Guarantee</span>
+            </div>
+            <div class="bottom-feature">
+                <i class="fas fa-check-circle"></i>
+                <span>24/7 Customer Support</span>
+            </div>
+            <div class="bottom-feature">
+                <i class="fas fa-check-circle"></i>
+                <span>Flexible Cancellation</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="fas fa-mountain"></i> ZoonTourism</h5>
+                    <p>We believe every journey should be more than just a trip—it should be a story worth telling. With years of expertise in crafting unforgettable travel experiences, we specialize in showcasing the breathtaking beauty of Kashmir and beyond.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h5>Quick Links</h5>
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    <a href="packages.html">Packages</a>
+                    <a href="destinations.html">Destinations</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-map-marker-alt"></i> Residency Road, Srinagar, Kashmir</p>
+                    <p><i class="fas fa-phone"></i> +91 123 456 7890</p>
+                    <p><i class="fas fa-envelope"></i> info@zoontourism.com</p>
+                </div>
+                
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.2); margin: 40px 0 20px;">
+            <div class="text-center">
+                <p>&copy; 2025 ZoonTourism. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cookie Notice -->
+    <div class="cookie-notice">
+        <strong>🍪 We use cookies</strong> to enhance your browsing experience. By continuing to use our site, you accept our use of cookies.
+        <button type="button" class="btn btn-primary btn-sm ms-3" onclick="acceptCookies()">Accept</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Entry Overlay
+        function closeOverlay() {
+            document.getElementById('entryOverlay').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('entryOverlay').style.display = 'none';
+            }, 800);
+        }
+
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const themeIcon = document.querySelector('.theme-toggle i');
+            if (document.body.classList.contains('dark-mode')) {
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        }
+
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+        }
+
+        // Scroll Reveal Animation
+        function revealOnScroll() {
+            const elements = document.querySelectorAll('.scroll-reveal');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        // Package Filtering
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+                const packages = document.querySelectorAll('.package-item');
+                
+                packages.forEach(package => {
+                    if (filter === 'all' || package.getAttribute('data-duration') === filter) {
+                        package.style.display = 'block';
+                    } else {
+                        package.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Cookie Notice
+        function acceptCookies() {
+            document.querySelector('.cookie-notice').classList.remove('show');
+            localStorage.setItem('cookiesAccepted', 'true');
+        }
+
+        if (!localStorage.getItem('cookiesAccepted')) {
+            setTimeout(() => {
+                document.querySelector('.cookie-notice').classList.add('show');
+            }, 2000);
+        }
+
+        // Package Card Click Handler
+        document.querySelectorAll('.package-card').forEach(card => {
+            card.addEventListener('click', function() {
+                window.location.href = 'packages.html';
+            });
+        });
+    </script>
+</body>
+</html>

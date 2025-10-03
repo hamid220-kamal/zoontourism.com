@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Packages - ZoonTourism</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0d7377;
+            --secondary-color: #14ffec;
+            --accent-color: #ff6b6b;
+            --dark-bg: #1a1a2e;
+            --light-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 76px;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: white;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode .navbar {
+            background: rgba(26, 26, 46, 0.95) !important;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            position: relative;
+            margin: 0 10px;
+            color: #2d3436 !important;
+        }
+
+        body.dark-mode .nav-link {
+            color: white !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .theme-toggle, .lang-toggle {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 0;
+            color: white;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+        }
+
+        .filter-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin: -50px auto 50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        body.dark-mode .filter-section {
+            background: #16213e;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 25px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .filter-btn {
+            background: var(--dark-bg);
+        }
+/* Add these to your existing CSS */
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .filter-section {
+        margin: -30px auto 30px;
+        padding: 20px;
+    }
+    
+    .filter-btn {
+        padding: 8px 15px;
+        margin: 3px;
+        font-size: 0.9rem;
+    }
+    
+    .package-card {
+        margin-bottom: 20px;
+    }
+    
+    .package-content {
+        padding: 15px;
+    }
+    
+    .package-title {
+        font-size: 1.3rem;
+    }
+    
+    .package-price {
+        font-size: 1.5rem;
+    }
+    
+    .package-cta {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .book-btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .package-highlights {
+        gap: 5px;
+    }
+    
+    .highlight-tag {
+        font-size: 0.8rem;
+        padding: 4px 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+    
+    .page-header {
+        padding: 60px 0;
+    }
+    
+    .filter-section .row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .package-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+}/* Add this to all pages */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.background-image {
+    background-size: cover;
+    background-position: center;
+}
+
+@media (max-width: 768px) {
+    .carousel-item {
+        height: 60vh;
+        min-height: 400px;
+    }
+    
+    .package-image,
+    .blog-image,
+    .destination-image {
+        height: 200px;
+    }
+}/* Add this to all pages */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+    }
+    
+    .btn {
+        font-size: 0.9rem;
+    }
+}/* Add this to all pages with forms */
+@media (max-width: 576px) {
+    .form-control, .form-select {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    .input-group {
+        flex-direction: column;
+    }
+    
+    .input-group .btn {
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+}
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .price-range {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            height: 100%;
+        }
+
+        body.dark-mode .package-card {
+            background: #16213e;
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .package-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .package-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .package-content {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 250px);
+        }
+
+        .package-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .package-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        body.dark-mode .package-meta {
+            color: #aaa;
+        }
+
+        .package-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .package-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode .package-description {
+            color: #aaa;
+        }
+
+        .package-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .package-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        body.dark-mode .package-features li {
+            border-bottom-color: #333;
+        }
+
+        .package-features li i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        .package-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        body.dark-mode .package-footer {
+            border-top-color: #333;
+        }
+
+        .package-price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .book-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .book-btn:hover {
+            background: var(--secondary-color);
+            color: var(--dark-bg);
+            transform: scale(1.05);
+        }
+
+        .modal-content {
+            border-radius: 15px;
+        }
+
+        body.dark-mode .modal-content {
+            background: var(--dark-bg);
+            color: white;
+        }
+
+        .itinerary-day {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        body.dark-mode .itinerary-day {
+            background: #16213e;
+        }
+
+        .itinerary-day h5 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 60px 0 20px;
+            margin-top: 80px;
+        }
+
+        .footer h5 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .footer a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+            transition : color 0.3s ease;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+   .social-icons a:hover {
+            background: var(--secondary-color);
+            color: var(--text-dark);
+            transform: translateY(-5px);
+        }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* New enhancements */
+        .package-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .rating-stars {
+            color: #ffc107;
+            margin-right: 10px;
+        }
+        
+        .package-inclusions {
+            background: rgba(13, 115, 119, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .inclusion-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .inclusion-item i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+        
+        .package-highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .highlight-tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .package-cta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        
+        .package-compare {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .compare-checkbox {
+            margin-right: 8px;
+        }
+        
+        .compare-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-top: 30px;
+            display: none;
+        }
+        
+        body.dark-mode .compare-section {
+            background: #16213e;
+        }
+        
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .compare-table th, .compare-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        body.dark-mode .compare-table th, 
+        body.dark-mode .compare-table td {
+            border-bottom: 1px solid #333;
+        }
+        
+        .compare-table th {
+            background: rgba(13, 115, 119, 0.1);
+        }
+        
+        body.dark-mode .compare-table th {
+            background: rgba(13, 115, 119, 0.2);
+        }
+        
+        .package-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .package-count {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        body.dark-mode .package-count {
+            color: var(--secondary-color);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+        
+        .no-results i {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-mountain"></i> ZoonTourism</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="packages.html">Packages</a></li>
+                    <li class="nav-item"><a class="nav-link" href="destinations.html">Destinations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="things-to-do.html">Things to Do</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+                <button class="theme-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+               
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Our Tour Packages</h1>
+        <p>Discover your perfect Kashmir adventure</p>
+    </section>
+
+    <!-- Filter Section -->
+    <div class="container">
+        <div class="filter-section">
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <h5>Filter by Duration</h5>
+                    <button class="filter-btn active" data-filter="all">All Packages</button>
+                    <button class="filter-btn" data-filter="short">3-5 Days</button>
+                    <button class="filter-btn" data-filter="medium">6-8 Days</button>
+                    <button class="filter-btn" data-filter="long">9+ Days</button>
+                </div>
+                <div class="col-md-6">
+                    <label>Price Range: ₹<span id="priceValue">30000</span></label>
+                    <input type="range" class="price-range form-range" id="priceRange" min="10000" max="60000" value="30000" step="5000">
+                </div>
+                <div class="col-md-6">
+                    <label>Sort By</label>
+                    <select class="form-select" id="sortBy">
+                        <option value="featured">Featured</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="duration">Duration</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Packages Grid -->
+    <section class="py-5">
+        <div class="container">
+            <div class="package-count" id="packageCount">Showing 4 of 4 packages</div>
+            
+            <div class="row" id="packagesContainer">
+                <!-- Package 1 -->
+<div class="col-md-6 col-lg-4 package-item scroll-reveal" data-duration="short" data-price="13500">
+  <div class="package-card">
+    
+    <!-- FIXED IMAGE BLOCK -->
+    <div class="package-image" 
+         style="position:relative;
+                width:100%;
+                height:250px;
+                overflow:hidden;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background-color:#000;">
+      <img src="Kashmir Delight package.png" alt="Kashmir Delight"
+           style="max-width:100%;
+                  max-height:100%;
+                  width:auto;
+                  height:auto;
+                  display:block;">
+      <div class="package-badge" 
+           style="position:absolute; top:15px; right:15px; z-index:2; background:#ff5a5f; color:#fff; padding:5px 10px; border-radius:4px;">
+        Best Seller
+      </div>
+    </div>
+    
+    <!-- CONTENT -->
+    <div class="package-content" style="padding:25px; display:flex; flex-direction:column; height:auto;">
+      <h3 class="package-title">Kashmir Delight</h3>
+      <div class="package-rating">
+        <div class="rating-stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
+        </div>
+        <span>(4.5/5)</span>
+      </div>
+      <div class="package-meta">
+        <span><i class="fas fa-clock"></i> 4 Days / 3 Nights</span>
+        <span><i class="fas fa-users"></i> 2-6 People</span>
+      </div>
+      <p class="package-description">
+        Experience the charm of Kashmir with Shikara rides, houseboat stays, and scenic day trips to Gulmarg and Pahalgam.
+      </p>
+      
+      <div class="package-highlights">
+        <span class="highlight-tag">Cultural</span>
+        <span class="highlight-tag">Relaxing</span>
+        <span class="highlight-tag">Photography</span>
+      </div>
+      
+      <div class="package-inclusions">
+        <div class="inclusion-item"><i class="fas fa-check"></i> Shikara Ride</div>
+        <div class="inclusion-item"><i class="fas fa-check"></i> Srinagar Stay</div>
+        <div class="inclusion-item"><i class="fas fa-check"></i> Houseboat Stay</div>
+        <div class="inclusion-item"><i class="fas fa-check"></i> Breakfast & Dinner</div>
+      </div>
+      
+      <div class="package-cta">
+        <div class="package-actions">
+          <button class="book-btn" onclick="openModal('kashmir-delight')">View Details</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+                <!-- Package 2 -->
+<div class="col-md-6 col-lg-4 package-item scroll-reveal" data-duration="short" data-price="16000">
+  <div class="package-card">
+    
+    <!-- FIXED IMAGE BLOCK -->
+    <div class="package-image" 
+         style="position:relative;
+                width:100%;
+                height:250px;
+                overflow:hidden;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background-color:#000;">
+      <img src="kashmir tour package.png" alt="Kashmir Tour Package"
+           style="max-width:100%;
+                  max-height:100%;
+                  width:auto;
+                  height:auto;
+                  display:block;">
+      <div class="package-badge" 
+           style="position:absolute; top:15px; right:15px; z-index:2; background:#007bff; color:#fff; padding:5px 10px; border-radius:4px;">
+        Popular
+      </div>
+    </div>
+    
+    <!-- CONTENT -->
+    <div class="package-content" style="padding:25px; display:flex; flex-direction:column; height:auto;">
+      <h3 class="package-title">Kashmir Tour Package</h3>
+      <div class="package-rating">
+        <div class="rating-stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+        <span>(4.0/5)</span>
+      </div>
+      <div class="package-meta">
+        <span><i class="fas fa-clock"></i> 5 Days / 4 Nights</span>
+        <span><i class="fas fa-users"></i> 2-8 People</span>
+      </div>
+      <p class="package-description">
+        Experience the magic of Kashmir with Shikara rides, Mughal gardens, and mountain valleys of Gulmarg and Sonmarg.
+      </p>
+      
+      <div class="package-highlights">
+        <span class="highlight-tag">Adventure</span>
+        <span class="highlight-tag">Cultural</span>
+        <span class="highlight-tag">Scenic</span>
+      </div>
+      
+      <div class="package-inclusions">
+        <div class="inclusion-item"><i class="fas fa-check"></i> Srinagar Stay</div>
+        <div class="inclusion-item"><i class="fas fa-check"></i> Houseboat Stay</div>
+        <div class="inclusion-item"><i class="fas fa-check"></i> Shikara Ride</div>
+        <div class="inclusion-item"><i class="fas fa-check"></i> Meals Included</div>
+      </div>
+      
+      <div class="package-cta">
+        <div class="package-actions">
+          <button class="book-btn" onclick="openModal('kashmir-tour')">View Details</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+                <!-- Package 3 -->
+<div class="col-md-6 col-lg-4 package-item scroll-reveal" data-duration="medium" data-price="19100">
+  <div class="package-card">
+    
+    <!-- FIXED IMAGE BLOCK -->
+    <div class="package-image" 
+         style="position:relative;
+                width:100%;
+                height:250px;
+                overflow:hidden;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background-color:#000;">
+      <img src="Kashmir retreat package.png" alt="Kashmir Retreat"
+           style="max-width:100%;
+                  max-height:100%;
+                  width:auto;
+                  height:auto;
+                  display:block;">
+      <div class="package-badge" 
+           style="position:absolute; top:15px; right:15px; z-index:2; background:#28a745; color:#fff; padding:5px 10px; border-radius:4px;">
+        Relaxing
+      </div>
+    </div>
+    
+    <!-- CONTENT -->
+    <div class="package-content" style="padding:25px; display:flex; flex-direction:column; height:auto;">
+      <h3 class="package-title">Kashmir Retreat</h3>
+      <div class="package-rating">
+        <div class="rating-stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+        <span>(5.0/5)</span>
+      </div>
+      <div class="package-meta">
+        <span><i class="fas fa-clock"></i> 6 Days / 5 Nights</span>
+        <span><i class="fas fa-users"></i> 2-6 People</span>
+      </div>
+      <p class="package-description">
+        A relaxing Kashmir journey with stays in Srinagar, Pahalgam, and houseboat, exploring Gulmarg and Sonmarg.
+      </p>
+      
+      <div class="package-highlights">
+        <span class="highlight-tag">Nature</span>
+        <span class="highlight-tag">Relaxing</span>
+        <span class="highlight-tag">Comfort</span>
+      </div>
+      
+      <div class="package-inclusions">
+        <div class="inclusion-item"><i class="fas fa-check"></i> Srinagar Stay</div>
+        <div class="inclusion-item"><i class="fas fa-check"></i> Pahalgam Stay</div>
+        <div class="inclusion-item"><i class="fas fa-check"></i> Houseboat Stay</div>
+        <div class="inclusion-item"><i class="fas fa-check"></i> Breakfast & Dinner</div>
+      </div>
+      
+      <div class="package-cta">
+        <div class="package-actions">
+          <button class="book-btn" onclick="openModal('kashmir-retreat')">View Details</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+                <!-- Package 4 -->
+               <div class="col-md-6 col-lg-4 package-item scroll-reveal" data-duration="medium" data-price="21300">
+  <div class="package-card">
+    
+    <!-- FIXED IMAGE BLOCK -->
+    <div class="package-image" 
+         style="position:relative;
+                width:100%;
+                height:250px;
+                overflow:hidden;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background-color:#000;">
+      <img src="Kashmir grand tour package.png" alt="Grand Kashmir Tour"
+           style="max-width:100%;
+                  max-height:100%;
+                  width:auto;
+                  height:auto;
+                  display:block;">
+      <div class="package-badge" 
+           style="position:absolute; top:15px; right:15px; z-index:2; background:#ff5a5f; color:#fff; padding:5px 10px; border-radius:4px;">
+        Premium
+      </div>
+    </div>
+    
+    <!-- CONTENT (auto height, no overflow) -->
+    <div class="package-content" style="padding:25px; display:flex; flex-direction:column; height:auto;">
+      <h3 class="package-title">Grand Kashmir Tour</h3>
+      <div class="package-rating">
+        <div class="rating-stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
+        </div>
+        <span>(4.5/5)</span>
+      </div>
+      <div class="package-meta">
+        <span><i class="fas fa-clock"></i> 7 Days / 6 Nights</span>
+        <span><i class="fas fa-users"></i> 2-8 People</span>
+      </div>
+      <p class="package-description">
+        The complete Kashmir experience covering Srinagar, Gulmarg, Sonmarg, Pahalgam, and Doodhpatri.
+      </p>
+      <div class="package-highlights">
+        <span class="highlight-tag">Comprehensive</span>
+        <span class="highlight-tag">Premium</span>
+        <span class="highlight-tag">Adventure</span>
+      </div>
+      <div class="package-inclusions">
+        <div class="inclusion-item"><i class="fas fa-check"></i> Srinagar Stay</div>
+        <div class="inclusion-item"><i class="fas fa-check"></i> Pahalgam Stay</div>
+        <div class="inclusion-item"><i class="fas fa-check"></i> Houseboat Stay</div>
+        <div class="inclusion-item"><i class="fas fa-check"></i> Shikara Ride</div>
+      </div>
+      <div class="package-cta">
+        <div class="package-actions">
+          <button class="book-btn" onclick="openModal('grand-kashmir')">View Details</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+            
+            <div class="no-results" id="noResults">
+                <i class="fas fa-search"></i>
+                <h3>No packages found</h3>
+                <p>Try adjusting your filters to see more results.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Package Detail Modal -->
+    <div class="modal fade" id="packageModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Package Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Content loaded dynamically -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="contact.html">
+  <button type="button" class="btn btn-primary" style="background: var(--primary-color); border: none;">
+    Book Now
+  </button>
+</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="fas fa-mountain"></i> ZoonTourism</h5>
+                    <p>We believe every journey should be more than just a trip—it should be a story worth telling. With years of expertise in crafting unforgettable travel experiences, we specialize in showcasing the breathtaking beauty of Kashmir and beyond.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h5>Quick Links</h5>
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    <a href="packages.html">Packages</a>
+                    <a href="destinations.html">Destinations</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-map-marker-alt"></i> Residency Road, Srinagar, Kashmir</p>
+                    <p><i class="fas fa-phone"></i> +91 123 456 7890</p>
+                    <p><i class="fas fa-envelope"></i> info@zoomtourism.com</p>
+                </div>
+                
+            </div>
+            <hr>
+            <div class="text-center">
+                <p>&copy; 2025 ZoonTourism. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const themeIcon = document.querySelector('.theme-toggle i');
+            if (document.body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        }
+
+        // Language Toggle
+        function toggleLanguage() {
+            const langBtn = document.querySelector('.lang-toggle');
+            if (langBtn.textContent === 'EN') {
+                langBtn.textContent = 'HI';
+            } else {
+                langBtn.textContent = 'EN';
+            }
+        }
+
+        // Package Filtering
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const priceRange = document.getElementById('priceRange');
+            const priceValue = document.getElementById('priceValue');
+            const sortBy = document.getElementById('sortBy');
+            const packageItems = document.querySelectorAll('.package-item');
+            const packageCount = document.getElementById('packageCount');
+            const noResults = document.getElementById('noResults');
+            
+            // Update price display
+            priceValue.textContent = priceRange.value;
+            priceRange.addEventListener('input', function() {
+                priceValue.textContent = this.value;
+                filterPackages();
+            });
+            
+            // Filter buttons
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    filterPackages();
+                });
+            });
+            
+            // Sort functionality
+            sortBy.addEventListener('change', filterPackages);
+            
+            // Package comparison
+            
+                    
+                    // Reset comparison table
+                   
+            // Filter and sort packages
+            function filterPackages() {
+                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                const maxPrice = parseInt(priceRange.value);
+                const sortValue = sortBy.value;
+                
+                let visibleCount = 0;
+                let packagesArray = Array.from(packageItems);
+                
+                // Filter by duration and price
+                packagesArray.forEach(package => {
+                    const duration = package.getAttribute('data-duration');
+                    const price = parseInt(package.getAttribute('data-price'));
+                    
+                    const matchesFilter = activeFilter === 'all' || duration === activeFilter;
+                    const matchesPrice = price <= maxPrice;
+                    
+                    if (matchesFilter && matchesPrice) {
+                        package.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        package.style.display = 'none';
+                    }
+                });
+                
+                // Sort packages
+                if (sortValue !== 'featured') {
+                    packagesArray.sort((a, b) => {
+                        const aPrice = parseInt(a.getAttribute('data-price'));
+                        const bPrice = parseInt(b.getAttribute('data-price'));
+                        
+                        if (sortValue === 'price-low') {
+                            return aPrice - bPrice;
+                        } else if (sortValue === 'price-high') {
+                            return bPrice - aPrice;
+                        } else if (sortValue === 'duration') {
+                            const aDuration = a.getAttribute('data-duration');
+                            const bDuration = b.getAttribute('data-duration');
+                            const durationOrder = {short: 1, medium: 2, long: 3};
+                            return durationOrder[aDuration] - durationOrder[bDuration];
+                        }
+                    });
+                    
+                    // Reorder DOM
+                    const container = document.getElementById('packagesContainer');
+                    container.innerHTML = '';
+                    packagesArray.forEach(package => {
+                        container.appendChild(package);
+                    });
+                }
+                
+                // Update count and show/hide no results
+                packageCount.textContent = `Showing ${visibleCount} of ${packageItems.length} packages`;
+                
+                if (visibleCount === 0) {
+                    noResults.style.display = 'block';
+                } else {
+                    noResults.style.display = 'none';
+                }
+                
+                // Trigger scroll reveal animation for visible items
+                setTimeout(() => {
+                    revealOnScroll();
+                }, 100);
+            }
+            
+            // Scroll reveal animation
+            function revealOnScroll() {
+                const elements = document.querySelectorAll('.scroll-reveal');
+                const windowHeight = window.innerHeight;
+                
+                elements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    
+                    if (elementTop < windowHeight - 100) {
+                        element.classList.add('active');
+                    }
+                });
+            }
+            
+            // Initial filter
+            filterPackages();
+            
+            // Scroll event listener
+            window.addEventListener('scroll', revealOnScroll);
+            
+            // Initial reveal
+            revealOnScroll();
+        });
+
+        // Modal functionality
+        function openModal(packageId) {
+            const modal = new bootstrap.Modal(document.getElementById('packageModal'));
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            // Set modal content based on package
+            if (packageId === 'kashmir-delight') {
+                modalTitle.textContent = '3N/4D Kashmir Delight';
+                modalBody.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="Kashmir delight overview.png" class="img-fluid rounded mb-3" alt="Kashmir Delight">
+                            <div class="package-inclusions">
+                                <h5>Package Overview</h5>
+                                <p><strong>Destinations Covered:</strong> Srinagar · Gulmarg · Pahalgam</p>
+                                <p>Experience the Charm of Kashmir in just 4 days with this short yet beautiful getaway. Perfect for couples, families, or small groups.</p>
+                                
+                                <h6>Highlights:</h6>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> 3 Nights / 4 Days covering Srinagar, Gulmarg, and Pahalgam</div>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> 2 nights in Srinagar hotels + 1 night in traditional houseboat</div>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> Breakfast & dinner included daily</div>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> Private cab with driver for transfers and sightseeing</div>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> 1-hour Shikara ride on Dal Lake</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Suggested Itinerary</h5>
+                            <div class="itinerary-day">
+                                <h5>Day 1: Arrival in Srinagar</h5>
+                                <p>Airport pick-up, hotel check-in, evening Shikara ride.</p>
+                            </div>
+                            <div class="itinerary-day">
+                                <h5>Day 2: Excursion to Gulmarg</h5>
+                                <p>Enjoy snow peaks, meadows, and optional gondola ride.</p>
+                            </div>
+                            <div class="itinerary-day">
+                                <h5>Day 3: Day trip to Pahalgam</h5>
+                                <p>Explore valleys, river views, and local markets.</p>
+                            </div>
+                            <div class="itinerary-day">
+                                <h5>Day 4: Departure from Srinagar</h5>
+                                <p>Breakfast and transfer to airport.</p>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h5>Package Price: ₹13,500 per person</h5>
+                                <p><small>*Available in Standard, 3★, and Premium 3★ hotel options</small></p>
+                                
+                                <h6>Frequently Asked Questions</h6>
+                                <p><strong>Q1: What's included in this package?</strong><br>
+                                A: Hotels, houseboat, daily breakfast & dinner, private cab, and Shikara ride.</p>
+                                
+                                <p><strong>Q2: Can the itinerary be customized?</strong><br>
+                                A: Yes, we can adjust destinations and stays based on your preference.</p>
+                                
+                                <p><strong>Q5: What's the best season to book?</strong><br>
+                                A: Kashmir is year-round — spring blossoms, summer escapes, autumn colors, winter snow.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (packageId === 'kashmir-tour') {
+                modalTitle.textContent = '4N/5D Kashmir Tour Package';
+                modalBody.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="Kahmir tour package overview.png" class="img-fluid rounded mb-3" alt="Kashmir Tour">
+                            <div class="package-inclusions">
+                                <h5>Package Overview</h5>
+                                <p><strong>Destinations Covered:</strong> Srinagar · Gulmarg · Sonmarg · Pahalgam</p>
+                                <p>Experience the Magic of Kashmir with 4 nights and 5 days exploring the crown jewel of India. Perfect for couples, families, and groups.</p>
+                                
+                                <h6>Highlights:</h6>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> 4 Nights / 5 Days covering Srinagar, Gulmarg, Sonmarg, and Pahalgam</div>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> Stay in handpicked hotels + houseboats</div>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> Daily breakfast & dinner included</div>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> Private cab with professional driver</div>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> Shikara ride on Dal Lake, Mughal Gardens</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Suggested Itinerary</h5>
+                            <div class="itinerary-day">
+                                <h5>Day 1: Arrival Srinagar</h5>
+                                <p>Airport pick-up, check-in, Mughal Gardens tour.</p>
+                            </div>
+                            <div class="itinerary-day">
+                                <h5>Day 2: Houseboat Stay</h5>
+                                <p>Houseboat stay on Dal Lake with Shikara ride.</p>
+                            </div>
+                            <div class="itinerary-day">
+                                <h5>Day 3: Gulmarg or Sonmarg</h5>
+                                <p>Excursion to Gulmarg or Sonmarg.</p>
+                            </div>
+                            <div class="itinerary-day">
+                                <h5>Day 4: Pahalgam Trip</h5>
+                                <p>Full-day trip to Pahalgam.</p>
+                            </div>
+                            <div class="itinerary-day">
+                                <h5>Day 5: Departure</h5>
+                                <p>Departure from Srinagar.</p>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h5>Package Price: ₹16,000 per person</h5>
+                                <p><small>*Choose between Standard, 3★, or Premium hotels</small></p>
+                                
+                                <h6>Frequently Asked Questions</h6>
+                                <p><strong>Q1: What is included?</strong><br>
+                                A: Hotels, meals, transfers, Shikara ride.</p>
+                                
+                                <p><strong>Q2: Is itinerary flexible?</strong><br>
+                                A: Yes, fully customizable.</p>
+                                
+                                <p><strong>Q5: Best time to visit?</strong><br>
+                                A: Year-round — snow in winter, flowers in spring, cool summers, golden autumn.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (packageId === 'kashmir-retreat') {
+                modalTitle.textContent = '5N/6D Kashmir Retreat';
+                modalBody.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="kashmir retreat package overview.png" class="img-fluid rounded mb-3" alt="Kashmir Retreat">
+                            <div class="package-inclusions">
+                                <h5>Package Overview</h5>
+                                <p><strong>Destinations Covered:</strong> Srinagar · Gulmarg · Sonmarg · Pahalgam</p>
+                                <p>A Relaxing Kashmir Journey over 6 days. Stay in Srinagar, Pahalgam, and a houseboat with day trips to Gulmarg and Sonmarg.</p>
+                                
+                                <h6>Highlights:</h6>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> 5 Nights / 6 Days covering Srinagar, Gulmarg, Sonmarg & Pahalgam</div>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> Stays in Srinagar, Pahalgam, and traditional houseboat</div>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> Breakfast & dinner included daily</div>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> Private cab with driver for transfers & sightseeing</div>
+                                <div class="inclusion-item"><i class="fas fa-check"></i> Shikara ride on Dal Lake</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Suggested Itinerary</h5>
+                            <div class="itinerary-day">
+                                <h5>Day 1: Arrival Srinagar</h5>
+                                <p>Arrival Srinagar, Shikara ride.</p>
+                            </div>
+                            <div class="itinerary-day">
+                                <h5>Day 2: Gulmarg Excursion</h5>
+                                <p>Gulmarg excursion.</p>
+                            </div>
+                            <div class="itinerary-day">
+                                <h5>Day 3: Sonmarg Day Tour</h5>
+                                <p>Sonmarg day tour.</p>
+                            </div>
+                            <div class="itinerary-day">
+                                <h5>Day 4: Pahalgam Stay</h5>
+                                <p>Overnight stay in Pahalgam, local exploration.</p>
+                            </div>
+                            <div class="itinerary-day">
+                                <h5>Day 5: Return to Srinagar</h5>
+                                <p>Return to Srinagar, Mughal gardens tour.</p>
+                            </div>
+                            <div class="itinerary-day">
+                                <h5>Day 6: Departure</h5>
+                                <p>Departure.</p>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h5>Package Price: ₹19,100 per person</h5>
+                                <p><small>*Available with Standard, 3★, and Premium hotel categories</small></p>
+                                
+                                <h6>Frequently Asked Questions</h6>
+                                <p><strong>Q1: What's included?</strong><br>
+                                A: Hotel & houseboat stays, meals, transfers, Shikara ride.</p>
+                                
+                                <p><strong>Q2: Can itinerary change?</strong><br>
+                                A: Yes, customizable.</p>
+                                
+                                <p><strong>Q5: Best season?</strong><br>
+                                A: Kashmir is scenic all year round.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (packageId === 'grand-kashmir') {
+                modalTitle.textContent = '6N/7D Grand Kashmir Tour';
+               modalBody.innerHTML = `
+    <div class="row" style="display: flex; flex-wrap: wrap;">
+        <div class="col-md-6" style="flex: 0 0 50%; max-width: 50%;">
+            <img src="Grand kashmir tour package overview.png" class="img-fluid rounded mb-3" alt="Grand Kashmir">
+            <div class="package-inclusions">
+                <h5>Package Overview</h5>
+                <p><strong>Destinations Covered:</strong> Srinagar · Gulmarg · Sonmarg · Pahalgam · Doodhpatri</p>
+                <p>The Complete Kashmir Experience over 7 days. Explore the most famous gems of Kashmir from Dal Lake to offbeat charm of Doodhpatri.</p>
+                
+                <h6>Highlights:</h6>
+                <div class="inclusion-item"><i class="fas fa-check"></i> 6 Nights / 7 Days covering Srinagar, Gulmarg, Sonmarg, Pahalgam, and Doodhpatri</div>
+                <div class="inclusion-item"><i class="fas fa-check"></i> 4 nights Srinagar, 1 night Pahalgam, 1 night houseboat stay</div>
+                <div class="inclusion-item"><i class="fas fa-check"></i> Breakfast & dinner included daily</div>
+                <div class="inclusion-item"><i class="fas fa-check"></i> Private cab with driver for sightseeing & transfers</div>
+                <div class="inclusion-item"><i class="fas fa-check"></i> 1-hour Shikara ride on Dal Lake</div>
+            </div>
+        </div>
+        <div class="col-md-6" style="flex: 0 0 50%; max-width: 50%;">
+            <h5>Suggested Itinerary</h5>
+            <div class="itinerary-day">
+                <h5>Day 1: Arrival Srinagar</h5>
+                <p>Arrival Srinagar, Shikara ride.</p>
+            </div>
+            <div class="itinerary-day">
+                <h5>Day 2: Sonmarg Excursion</h5>
+                <p>Excursion to Sonmarg.</p>
+            </div>
+            <div class="itinerary-day">
+                <h5>Day 3: Gulmarg Day Tour</h5>
+                <p>Gulmarg day tour, optional gondola ride.</p>
+            </div>
+            <div class="itinerary-day">
+                <h5>Day 4: Doodhpatri Sightseeing</h5>
+                <p>Doodhpatri sightseeing.</p>
+            </div>
+            <div class="itinerary-day">
+                <h5>Day 5: Pahalgam Stay</h5>
+                <p>Overnight stay at Pahalgam.</p>
+            </div>
+            <div class="itinerary-day">
+                <h5>Day 6: Return to Srinagar</h5>
+                <p>Return to Srinagar, Mughal Gardens & shopping.</p>
+            </div>
+            <div class="itinerary-day">
+                <h5>Day 7: Departure</h5>
+                <p>Departure.</p>
+            </div>
+            
+            <div class="mt-4">
+                <h5>Package Price: ₹21,300 per person</h5>
+                <p><small>*Available with Standard, 3★, and Premium 3★ options</small></p>
+                
+                <h6>Frequently Asked Questions</h6>
+                <p><strong>Q1: What's included?</strong><br>
+                A: Hotels, houseboat, meals, Shikara ride, private cab, driver.</p>
+                
+                <p><strong>Q3: Can this be customized?</strong><br>
+                A: Yes, tailor-made itineraries are possible.</p>
+                
+                <p><strong>Q5: When to book?</strong><br>
+                A: Best booked early for seasonal discounts.</p>
+            </div>
+        </div>
+                `;
+            }
+            
+            modal.show();
+        }
+    </script>
+</body>
+</html>

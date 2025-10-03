@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - ZoonTourism</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0d7377;
+            --secondary-color: #14ffec;
+            --accent-color: #ff6b6b;
+            --dark-bg: #1a1a2e;
+            --light-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 76px;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: white;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode .navbar {
+            background: rgba(26, 26, 46, 0.95) !important;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            position: relative;
+            margin: 0 10px;
+            color: #2d3436 !important;
+        }
+
+        body.dark-mode .nav-link {
+            color: white !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .theme-toggle, .lang-toggle {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 0;
+            color: white;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+        }
+
+        .filter-buttons {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 25px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .filter-btn {
+            background: var(--dark-bg);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.gallery-container .card img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .gallery-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+
+
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 20px;
+            color: white;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay h5 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .gallery-overlay p {
+            margin: 5px 0 0;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+            z-index: 10000;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            color: var(--accent-color);
+            transform: rotate(90deg);
+        }
+
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+            padding: 20px;
+            transition: all 0.3s ease;
+            z-index: 10000;
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            color: var(--secondary-color);
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            border-radius: 25px;
+            color: white;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox-info h5 {
+            margin: 0 0 5px;
+            font-size: 1.2rem;
+        }
+
+        .lightbox-info p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 60px 0 20px;
+            margin-top: 80px;
+        }
+
+        .footer h5 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .footer a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin: 0 5px;
+        }
+
+        @media (max-width: 992px) {
+            .gallery-container {
+                column-count: 2;
+            }
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .gallery-container {
+                column-count: 1;
+            }
+            .lightbox-prev,
+            .lightbox-next {
+                font-size: 2rem;
+            }
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }/* Add this to all pages */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+    
+    .nav-link {
+        font-size: 0.9rem;
+        margin: 0 5px;
+    }
+    
+    .theme-toggle {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        margin-left: 5px;
+    }
+    
+    .navbar-collapse {
+        text-align: center;
+    }
+    
+    .navbar-nav {
+        margin-top: 10px;
+    }
+}/* Add this to all pages */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.background-image {
+    background-size: cover;
+    background-position: center;
+}
+
+@media (max-width: 768px) {
+    .carousel-item {
+        height: 60vh;
+        min-height: 400px;
+    }
+    
+    .package-image,
+    .blog-image,
+    .destination-image {
+        height: 200px;
+    }
+}/* Add this to all pages */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+    }
+    
+    .btn {
+        font-size: 0.9rem;
+    }
+}/* Add this to all pages with forms */
+@media (max-width: 576px) {
+    .form-control, .form-select {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    .input-group {
+        flex-direction: column;
+    }
+    
+    .input-group .btn {
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-mountain"></i> ZoonTourism</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="packages.html">Packages</a></li>
+                    <li class="nav-item"><a class="nav-link" href="destinations.html">Destinations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="things-to-do.html">Things to Do</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+                <button class="theme-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Our Gallery</h1>
+        <p>Capturing Kashmir's breathtaking beauty</p>
+    </section>
+
+    <!-- Filter Buttons -->
+    <div class="container">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Photos</button>
+            <button class="filter-btn" data-filter="landscapes">Landscapes</button>
+            <button class="filter-btn" data-filter="culture">Culture</button>
+            <button class="filter-btn" data-filter="adventure">Adventure</button>
+            <button class="filter-btn" data-filter="destinations">Destinations</button>
+        </div>
+    </div>
+
+    <!-- Gallery Grid -->
+    <section class="py-5">
+        <div class="container">
+            <div class="gallery-container">
+                <!-- Gallery Item 1 -->
+<div class="gallery-item" data-category="destinations culture">
+    <img src="srinagar.png" alt="Srinagar" style="width:100%;height:auto;display:block;">
+    <div class="gallery-overlay">
+        <h5>Srinagar</h5>
+        <p>Lakeside beauty</p>
+    </div>
+</div>
+
+<!-- Gallery Item 2 -->
+<div class="gallery-item" data-category="destinations adventure">
+    <img src="gulmarg.png" alt="Gulmarg" style="width:100%;height:auto;display:block;">
+    <div class="gallery-overlay">
+        <h5>Gulmarg</h5>
+        <p>Snowy meadows</p>
+    </div>
+</div>
+
+<!-- Gallery Item 3 -->
+<div class="gallery-item" data-category="destinations landscapes">
+    <img src="pahalgam.png" alt="Pahalgam" style="width:100%;height:auto;display:block;">
+    <div class="gallery-overlay">
+        <h5>Pahalgam</h5>
+        <p>River valley</p>
+    </div>
+</div>
+
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="sonamarg.png" alt="Sonamarg">
+                    <div class="gallery-overlay">
+                        <h5>Sonamarg</h5>
+                        <p>Golden meadow</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item" data-category="destinations culture">
+                    <img src="leh.png" alt="Leh">
+                    <div class="gallery-overlay">
+                        <h5>Leh</h5>
+                        <p>Mountain town</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 6 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="dal lake.png" alt="Dal Lake">
+                    <div class="gallery-overlay">
+                        <h5>Dal Lake</h5>
+                        <p>Floating serenity</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 7 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="Betaab Valley.png" alt="Betaab Valley">
+                    <div class="gallery-overlay">
+                        <h5>Betaab Valley</h5>
+                        <p>Verdant valley</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 8 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+<img src="Aru valley.png" alt="Aru Valley">
+                    <div class="gallery-overlay">
+                        <h5>Aru Valley</h5>
+                        <p>Tranquil meadows</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 9 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="yusmarg.png" alt="Yusmarg">
+                    <div class="gallery-overlay">
+                        <h5>Yusmarg</h5>
+                        <p>Forest escape</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 10 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="Doodhpathri.png" alt="Doodhpathri">
+                    <div class="gallery-overlay">
+                        <h5>Doodhpathri</h5>
+                        <p>Milk valley</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 11 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="kokernag.png" alt="Kokernag">
+                    <div class="gallery-overlay">
+                        <h5>Kokernag</h5>
+                        <p>Botanical springs</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 12 -->
+                <div class="gallery-item" data-category="destinations culture">
+                    <img src="verinag.png" alt="Verinag">
+                    <div class="gallery-overlay">
+                        <h5>Verinag</h5>
+                        <p>Fountain springs</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 13 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="Aharball waterfall.png" alt="Aharbal Waterfall">
+                    <div class="gallery-overlay">
+                        <h5>Aharbal Waterfall</h5>
+                        <p>Roaring waterfall</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 14 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="wular lake.png" alt="Wular Lake">
+                    <div class="gallery-overlay">
+                        <h5>Wular Lake</h5>
+                        <p>Expansive water</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 15 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="manasbal lake.png" alt="Manasbal Lake">
+                    <div class="gallery-overlay">
+                        <h5>Manasbal Lake</h5>
+                        <p>Mirror lake</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 16 -->
+                <div class="gallery-item" data-category="destinations culture">
+                    <img src="shankaracharya hill.png" alt="Shankaracharya Hill">
+                    <div class="gallery-overlay">
+                        <h5>Shankaracharya Hill</h5>
+                        <p>Hilltop shrine</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 17 -->
+                <div class="gallery-item" data-category="destinations culture">
+                    <img src="mughal gardens.png" alt="Mughal Gardens">
+                    <div class="gallery-overlay">
+                        <h5>Mughal Gardens</h5>
+                        <p>Royal gardens</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 18 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="gurez valley.png" alt="Gurez Valley">
+                    <div class="gallery-overlay">
+                        <h5>Gurez Valley</h5>
+                        <p>Remote valley</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 19 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="Lolab valley.png" alt="Lolab Valley">
+                    <div class="gallery-overlay">
+                        <h5>Lolab Valley</h5>
+                        <p>Hidden valley</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 20 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="Dachigam national park.png" alt="Dachigam National Park">
+                    <div class="gallery-overlay">
+                        <h5>Dachigam National Park</h5>
+                        <p>Wildlife reserve</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 21 -->
+                <div class="gallery-item" data-category="destinations culture">
+                    <img src="Amarnath cave.png" alt="Amarnath Cave">
+                    <div class="gallery-overlay">
+                        <h5>Amarnath Cave</h5>
+                        <p>Sacred cave</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 22 -->
+                <div class="gallery-item" data-category="destinations adventure">
+                    <img src="zanskar valley.png" alt="Zanskar Valley">
+                    <div class="gallery-overlay">
+                        <h5>Zanskar Valley</h5>
+                        <p>Remote Himalayas</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 23 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="Tarsar marsar lakes.png" alt="Tarsar Marsar Lakes">
+                    <div class="gallery-overlay">
+                        <h5>Tarsar Marsar Lakes</h5>
+                        <p>Twin alpine</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 24 -->
+                <div class="gallery-item" data-category="destinations culture">
+<img src="martand sun temple.png" alt="Martand Sun Temple">
+                    <div class="gallery-overlay">
+                        <h5>Martand Sun Temple</h5>
+                        <p>Ancient temple</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 25 -->
+                <div class="gallery-item" data-category="destinations landscapes">
+                    <img src="kupwara meadows.png" alt="Kupwara Meadows">
+                    <div class="gallery-overlay">
+                        <h5>Kupwara Meadows</h5>
+                        <p>Blooming meadows</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <span class="lightbox-prev" onclick="changeImage(-1)">&#10094;</span>
+        <span class="lightbox-next" onclick="changeImage(1)">&#10095;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+            <div class="lightbox-info">
+                <h5 id="lightbox-title"></h5>
+                <p id="lightbox-description"></p>
+            </div>
+        </div>
+    </div>
+
+  <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="fas fa-mountain"></i> ZoonTourism</h5>
+                    <p>We believe every journey should be more than just a trip—it should be a story worth telling. With years of expertise in crafting unforgettable travel experiences, we specialize in showcasing the breathtaking beauty of Kashmir and beyond.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h5>Quick Links</h5>
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    <a href="packages.html">Packages</a>
+                    <a href="destinations.html">Destinations</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-map-marker-alt"></i> Residency Road, Srinagar, Kashmir</p>
+                    <p><i class="fas fa-phone"></i> +91 123 456 7890</p>
+                    <p><i class="fas fa-envelope"></i> info@zoomtourism.com</p>
+                </div>
+                
+            </div>
+            <hr>
+            <div class="text-center">
+                <p>&copy; 2025 ZoonTourism. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Dark Mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            document.querySelector('.theme-toggle i').className = document.body.classList.contains('dark-mode') ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+        }
+
+        // Language Toggle
+        let currentLang = 'EN';
+        function toggleLanguage() {
+            currentLang = currentLang === 'EN' ? 'HI' : 'EN';
+            document.querySelector('.lang-toggle').textContent = currentLang;
+        }
+
+        // Gallery Filter
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                document.querySelectorAll('.gallery-item').forEach(item => {
+                    if (filter === 'all' || item.dataset.category.includes(filter)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Lightbox functionality
+        let currentImageIndex = 0;
+        let images = [];
+
+        document.querySelectorAll('.gallery-item').forEach((item, index) => {
+            const img = item.querySelector('img');
+            const title = item.querySelector('h5')?.textContent || 'Kashmir';
+            const desc = item.querySelector('p')?.textContent || '';
+            
+            images.push({
+                src: img.src,
+                title: title,
+                description: desc
+            });
+
+            item.addEventListener('click', () => {
+                openLightbox(index);
+            });
+        });
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            updateLightboxImage();
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) {
+                currentImageIndex = images.length - 1;
+            } else if (currentImageIndex >= images.length) {
+                currentImageIndex = 0;
+            }
+            updateLightboxImage();
+        }
+
+        function updateLightboxImage() {
+            const current = images[currentImageIndex];
+            document.getElementById('lightbox-img').src = current.src;
+            document.getElementById('lightbox-title').textContent = current.title;
+            document.getElementById('lightbox-description').textContent = current.description;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('lightbox').classList.contains('active')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') changeImage(-1);
+                if (e.key === 'ArrowRight') changeImage(1);
+            }
+        });
+
+        // Close lightbox on background click
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
